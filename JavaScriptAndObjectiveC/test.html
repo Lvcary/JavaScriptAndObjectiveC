@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>测试IOS与JS之前的互调</title>
+	<style type="text/css">
+	  * {
+	  	font-size: 40px;
+	  }
+	</style>
+<!--  这里是在HTML里面写 JS 代码  -->
+  <script type="text/javascript">
+
+//这个两个方法是用来让OC调用 的
+  var jsFunc = function() {
+    //这句话的作用是 显示 一个提示框 提示  OC 调用JS里面的函数的一个例子，这个提示框会自动变成原生系统的提示框
+    //估计是苹果自己做了封装。去判断 js 是否调用了这个方法，如果调用了就显示提示框
+    alert('Objective-C call js to show alert');
+  }
+  
+  var jsParamFunc = function(argument) {
+    document.getElementById('jsParamFuncSpan').innerHTML
+    = argument['name']+'weichao ni hao ';
+  }
+  
+  </script>
+  
+</head>
+
+<body>
+            
+<div style="margin-top: 100px">
+	<h1>Test how to use objective-c call js</h1>
+	<input type="button" value="Call ObjC system camera" onclick="OCModel.callSystemCamera()">
+	<input type="button" value="Call ObjC system alert" onclick="OCModel.showAlertMsg('js title', 'js message')">
+</div>
+
+<div>
+
+<!--  这两个按钮是 JS 代码调用OC的代码 OCModel 里面的函数并传入JSON 数据
+ 
+ callWithDict(JSON 数据) -> - (void)callWithDict:(NSDictionary *)params
+ 
+ jsCallObjcAndObjcCallJsWithDict(JSON 数据) -> - (void)jsCallObjcAndObjcCallJsWithDict:(NSDictionary *)params
+ 
+ -->
+
+	<button type="button" value="Call ObjC func with JSON " onclick="OCModel.callWithDict({'name': 'testname', 'age': 10, 'height': 170})"> callWithDict</button>
+	<input type="button" value="Call ObjC func with JSON and ObjC call js func to pass args." onclick="OCModel.jsCallObjcAndObjcCallJsWithDict({'name': 'testname', 'age': 10, 'height': 170})">
+</div>
+<div>
+  <a href="test1.html">Click to next page</a>
+</div>
+
+<div>
+	<span id="jsParamFuncSpan" style="color: red; font-size: 50px;"></span>
+</div>
+<script text="javascript">jsFunc();</script>
+
+</body>
+</html>
